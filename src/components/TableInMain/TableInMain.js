@@ -5,11 +5,14 @@ import IconsBlock from '../IconsBlock/IconsBlock';
 
 
 export default function TableInMain({ expenses, triggered, editItem }) {
-    const totalSum = totalSumFunc(expenses);
+    let totalSum = 0;
+    if (expenses && expenses.length > 0) {
+        totalSum = totalSumFunc(expenses);
+    };
 
     return (
         <div>
-            {expenses.length > 0 ? <TableContainer component={Paper}>
+            {expenses && expenses.length > 0 ? <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>

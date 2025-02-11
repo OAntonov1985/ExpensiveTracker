@@ -19,19 +19,24 @@ const style = {
     gap: "10px"
 };
 
-export default function ModalWindow({ open, handleClose, categories, editetData, handleChange, editetItemIndex, setGetExpTrigger }) {
+export default function ModalWindow({ open, handleClose, categories, editetData, handleChange, editetItemIndex, triggerToRender, resetIditetDate }) {
 
     function saveEditetData() {
         const expensesData = JSON.parse(localStorage.getItem("expenses")) || [];
-        console.log(editetData)
 
-        if (editetItemIndex < 0 || editetItemIndex >= expensesData.length) {
-            console.warn("Некоректний індекс");
-            return;
+        if (!editetData.category) {
+            editetData.category = categories[0];
         }
 
-        expensesData[editetItemIndex] = editetData;
+        if (editetItemIndex === null || editetItemIndex === -1) {
+            expensesData.push(editetData);
+        } else if (editetItemIndex >= 0 && editetItemIndex < expensesData.length) {
+            expensesData[editetItemIndex] = editetData;
+        }
+
         localStorage.setItem("expenses", JSON.stringify(expensesData));
+        triggerToRender(Math.floor(Math.random() * 1000000) + 1);
+        resetIditetDate();
         handleClose();
     }
 
@@ -48,13 +53,21 @@ export default function ModalWindow({ open, handleClose, categories, editetData,
                     <label>
                         <Input type="text" name="name" value={editetData.name} onChange={handleChange} />
                     </label>
-                    <select name="category" value={editetData.category} onChange={handleChange}>
-                        {categories?.map((category, index) => (
-                            <option key={index} value={category}>
-                                {category}
-                            </option>
-                        )) || <option disabled>Завантаження...</option>}
+                    <select
+                        name="category"
+                        value={editetData.category || categories[0] || ""}
+                        onChange={handleChange}>
+                        {categories.length > 0 ? (
+                            categories.map((category, index) => (
+                                <option key={index} value={category}>
+                                    {category}
+                                </option>
+                            ))
+                        ) : (
+                            <option disabled>Завантаження...</option>
+                        )}
                     </select>
+
                     <label>
                         <Input type="number" name="sum" value={editetData.sum} onChange={handleChange} />
                     </label>

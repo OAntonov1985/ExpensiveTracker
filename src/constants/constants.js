@@ -24,3 +24,6 @@ export const Colors = {
     BlueDark: '#1E6F9F',
     Danger: '#E25858',
 };
+
+export const newExpense =
+    { name: "", category: "", sum: 0, date: "" }

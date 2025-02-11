@@ -1,10 +1,10 @@
 import { ButtonContainer } from './HeaderButtonsInMain.style';
 import { Button, Select, InputLabel, MenuItem, FormControl } from '@mui/material';
 
-export default function HeaderButtonsInMain({ categories, filteringData }) {
+export default function HeaderButtonsInMain({ categories, filteringData, handleOpen }) {
     return (
         <ButtonContainer>
-            <Button variant="outlined">Створити</Button>
+            <Button variant="outlined" onClick={handleOpen}>Створити</Button>
 
             <FormControl fullWidth sx={{ maxWidth: 200 }}>
                 <InputLabel id="demo-simple-select-label"
