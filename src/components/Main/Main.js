@@ -4,20 +4,16 @@ import { useEffect, useState } from 'react';
 import deleteItemFromData from '../../helpers/deleteItemFromData';
 import HeaderButtonsInMain from '../HeaderButtonsInMain/HeaderButtonsInMain';
 import ModalWindow from '../ModalWindow/ModalWindow';
-import { newExpense } from '../../constants/constants';
+import { newExpense, categoriesList } from '../../constants/constants';
 
 
 
 export default function Main() {
     const expensesData = JSON.parse(localStorage.getItem("expenses"));
-    let categoriesData = [];
-    if (expensesData && expensesData.length > 0) {
-        expensesData.forEach(item => categoriesData.push(item.category));
-    }
-    categoriesData = [...new Set(categoriesData)];
+
     const [expenses, setExpenses] = useState(expensesData);
     const [getExpTrigger, setGetExpTrigger] = useState(0);
-    const [categories, setCategories] = useState(categoriesData);
+    const [categories, setCategories] = useState(categoriesList);
     const [editetData, setEditetData] = useState(newExpense);
     const [editetItemIndex, setEditetItemIndex] = useState(null);
 

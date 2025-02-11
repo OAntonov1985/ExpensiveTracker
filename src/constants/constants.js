@@ -26,4 +26,6 @@ export const Colors = {
 };
 
 export const newExpense =
-    { name: "", category: "", sum: 0, date: "" }
+    { name: "", category: "", sum: 0, date: "" };
+
+export const categoriesList = ["Продукти", "Транспорт", "Оренда", "Розваги"];
