@@ -4,7 +4,7 @@ import { totalSumFunc } from "../../helpers/totalSum";
 import IconsBlock from '../IconsBlock/IconsBlock';
 
 
-export default function TableInMain({ expenses, triggered, editItem }) {
+export default function TableInMain({ expenses, setEditExpenseArr, editItem }) {
     let totalSum = 0;
     if (expenses && expenses.length > 0) {
         totalSum = totalSumFunc(expenses);
@@ -30,7 +30,7 @@ export default function TableInMain({ expenses, triggered, editItem }) {
                                 <TableCell>{expense.category}</TableCell>
                                 <TableCell>{expense.sum} грн</TableCell>
                                 <TableCell>{expense.date}</TableCell>
-                                <TableCell><IconsBlock id={index} triggered={triggered} editItem={editItem} /></TableCell>
+                                <TableCell><IconsBlock id={index} setEditExpenseArr={setEditExpenseArr} editItem={editItem} /></TableCell>
                             </TableRow>
                         ))}
                         <TableRow>

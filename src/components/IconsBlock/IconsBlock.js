@@ -1,12 +1,10 @@
 import React from 'react';
 import { ItemIcon, ItemContainer } from './IconsBlock.style';
 
-
-
-export default function IconsBlock({ id, triggered, editItem }) {
+export default function IconsBlock({ id, setEditExpenseArr, editItem }) {
 
     function handleFunc(e) {
-        triggered(+e.target.id);
+        setEditExpenseArr(+e.target.id);
     }
 
     return (

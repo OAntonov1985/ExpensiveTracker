@@ -19,7 +19,7 @@ const style = {
     gap: "10px"
 };
 
-export default function ModalWindow({ open, handleClose, categories, editetData, handleChange, editetItemIndex, triggerToRender, resetIditetDate }) {
+export default function ModalWindow({ open, handleClose, categories, editetData, handleChange, editetItemIndex, seveChanges }) {
 
     function saveEditetData() {
         const expensesData = JSON.parse(localStorage.getItem("expenses")) || [];
@@ -32,12 +32,8 @@ export default function ModalWindow({ open, handleClose, categories, editetData,
             expensesData.push(editetData);
         } else if (editetItemIndex >= 0 && editetItemIndex < expensesData.length) {
             expensesData[editetItemIndex] = editetData;
-        }
-
-        localStorage.setItem("expenses", JSON.stringify(expensesData));
-        triggerToRender(Math.floor(Math.random() * 1000000) + 1);
-        resetIditetDate();
-        handleClose();
+        };
+        seveChanges(expensesData);
     }
 
 

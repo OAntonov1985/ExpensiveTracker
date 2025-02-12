@@ -1,39 +1,42 @@
 import { MainContainer } from './Main.style';
 import TableInMain from "../TableInMain/TableInMain";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import deleteItemFromData from '../../helpers/deleteItemFromData';
 import HeaderButtonsInMain from '../HeaderButtonsInMain/HeaderButtonsInMain';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { newExpense, categoriesList } from '../../constants/constants';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 
 
 export default function Main() {
-    const expensesData = JSON.parse(localStorage.getItem("expenses"));
+    const [expenses, setExpenses] = useLocalStorage([]);
+    const [filteredExpenses, setFilteredExpenses] = useLocalStorage(expenses);
 
-    const [expenses, setExpenses] = useState(expensesData);
-    const [getExpTrigger, setGetExpTrigger] = useState(0);
-    const [categories, setCategories] = useState(categoriesList);
+    // edit expense
     const [editetData, setEditetData] = useState(newExpense);
     const [editetItemIndex, setEditetItemIndex] = useState(null);
 
+    // modal window
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-
-    function triggered(id) {
-        deleteItemFromData(expenses, id);
-        setGetExpTrigger(id)
+    // delete 1 item from expenses
+    function setEditExpenseArr(id) {
+        const newArr = deleteItemFromData(expenses, id);
+        setExpenses([...newArr]);
+        setFilteredExpenses([...newArr]);
     };
 
+    // filtering expenses
     function filteringData(category) {
         if (category === "Всі витрати") {
-            setExpenses(expensesData);
+            setFilteredExpenses(expenses);
             return;
         };
-        const newData = expensesData.filter(item => item.category === category);
-        setExpenses(newData);
+        const newData = expenses.filter(item => item.category === category);
+        setFilteredExpenses(newData);
     };
 
     function editItem(id) {
@@ -43,6 +46,16 @@ export default function Main() {
         handleOpen();
     };
 
+    // save changes in edited expense
+    function seveChanges(newData) {
+        setExpenses([...newData]);
+        setFilteredExpenses([...newData]);
+        setEditetData(newExpense);
+        setEditetItemIndex(null);
+        handleClose();
+    }
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEditetData((prev) => ({
@@ -51,27 +64,11 @@ export default function Main() {
         }));
     };
 
-    function triggerToRender(id) {
-        setGetExpTrigger(id)
-    };
-
-    function resetIditetDate() {
-        setEditetData(newExpense);
-        setEditetItemIndex(null);
-    }
-
-
-    useEffect(() => {
-        const expenses = JSON.parse(localStorage.getItem("expenses"));
-        setExpenses(expenses);
-        console.log(getExpTrigger)
-    }, [getExpTrigger])
-
     return (
         <MainContainer>
-            <ModalWindow open={open} handleOpen={handleOpen} handleClose={handleClose} editetData={editetData} handleChange={handleChange} categories={categories} editetItemIndex={editetItemIndex} triggerToRender={triggerToRender} resetIditetDate={resetIditetDate} />
-            <HeaderButtonsInMain categories={categories} filteringData={filteringData} handleOpen={handleOpen} />
-            <TableInMain expenses={expenses} triggered={triggered} editItem={editItem} />
+            <ModalWindow open={open} handleOpen={handleOpen} handleClose={handleClose} editetData={editetData} handleChange={handleChange} categories={categoriesList} editetItemIndex={editetItemIndex} seveChanges={seveChanges} />
+            <HeaderButtonsInMain categories={categoriesList} filteringData={filteringData} handleOpen={handleOpen} />
+            <TableInMain expenses={filteredExpenses} setEditExpenseArr={setEditExpenseArr} editItem={editItem} />
         </MainContainer>
     )
 }
