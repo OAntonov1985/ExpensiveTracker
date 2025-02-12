@@ -19,10 +19,10 @@ const style = {
     gap: "10px"
 };
 
-export default function ModalWindow({ open, handleClose, categories, editetData, handleChange, editetItemIndex, seveChanges }) {
+export default function ModalWindow({ open, handleClose, categories, editetData, handleChange, editetItemIndex, seveChanges, expenses }) {
 
     function saveEditetData() {
-        const expensesData = JSON.parse(localStorage.getItem("expenses")) || [];
+        const expensesData = expenses || [];
 
         if (!editetData.category) {
             editetData.category = categories[0];
@@ -65,7 +65,7 @@ export default function ModalWindow({ open, handleClose, categories, editetData,
                     </select>
 
                     <label>
-                        <Input type="number" name="sum" value={editetData.sum} onChange={handleChange} />
+                        <Input type="number" name="sum" defaultValuevalue={editetData.sum ? editetData.sum : 0} onChange={handleChange} />
                     </label>
                     <label>
                         <Input type="string" name="date" value={editetData.date} onChange={handleChange} />

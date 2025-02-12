@@ -66,7 +66,7 @@ export default function Main() {
 
     return (
         <MainContainer>
-            <ModalWindow open={open} handleOpen={handleOpen} handleClose={handleClose} editetData={editetData} handleChange={handleChange} categories={categoriesList} editetItemIndex={editetItemIndex} seveChanges={seveChanges} />
+            <ModalWindow open={open} handleOpen={handleOpen} handleClose={handleClose} editetData={editetData} handleChange={handleChange} categories={categoriesList} editetItemIndex={editetItemIndex} seveChanges={seveChanges} expenses={expenses} />
             <HeaderButtonsInMain categories={categoriesList} filteringData={filteringData} handleOpen={handleOpen} />
             <TableInMain expenses={filteredExpenses} setEditExpenseArr={setEditExpenseArr} editItem={editItem} />
         </MainContainer>
